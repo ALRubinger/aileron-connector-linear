@@ -5,20 +5,38 @@
 # Shape (provisional until the codegen umbrella's "stable overlay
 # schema" criterion is met — see ALRubinger/aileron#893):
 #
-#   connector: {name, credential.kind}
+#   connector:
+#     name, publisher, credential.{kind, header, format}, network.hosts
+#   suite:
+#     name, description
 #   operations:
 #     <operationId>:
-#       idempotent: bool
-#       approval: required | none
-#       capabilities: [string]
-#       intent?: string         # default: GraphQL field description
-#       action_name?: string    # default: kebab-case(operationId)
-#       execute_id?: string     # default: first lower-cased word
+#       idempotent: bool                  # optional override; default per method kind
+#       approval: required | none         # optional override; default per method kind
+#       capabilities: [string]            # optional; default [snake_case(operationId)]
+#       intent?: string                   # default: GraphQL field description
+#       action_name?: string              # default: kebab-case(operationId)
+#       execute_id?: string               # default: first lower-cased word
+#   exclude: [operationId, ...]           # drop specific ops from emission
 
 connector:
   name: "github://ALRubinger/aileron-connector-linear"
+  publisher: "ALRubinger"
   credential:
+    # Linear personal API keys go in as `Authorization: <key>` with no
+    # `Bearer ` prefix (their published convention; verified empirically
+    # against api.linear.app/graphql). `format = "{key}"` overrides the
+    # runtime's default `Bearer {key}` per ALRubinger/aileron#917 / #919.
     kind: "api_key"
+    header: "Authorization"
+    format: "{key}"
+  network:
+    hosts:
+      - "api.linear.app:443"
+
+suite:
+  name: "linear-issues-and-comments"
+  description: "Read and write to a Linear workspace: fetch an issue by id, look up the authenticated user, create issues, and add comments. Writes are gated on per-call user approval per ADR-0009."
 
 operations:
   issue:
