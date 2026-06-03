@@ -92,6 +92,18 @@ If you add an op, regenerate `actions/` first (`task generate`), check the emitt
 - **No backwards-compat shims.** Pre-release.
 - **No emojis in code or docs unless explicitly requested.**
 
+## Releases
+
+Pushing a `vX.Y.Z` tag triggers `.github/workflows/release.yml`, which uses SHA-pinned composite actions from [`ALRubinger/aileron-actions`](https://github.com/ALRubinger/aileron-actions) to build, sign, and publish the connector tarball plus per-action tarballs. The pipeline expects one repo secret:
+
+- **`AILERON_SIGNING_KEY`** — base64-encoded ed25519 private key (PEM) for the publisher. Setup instructions in [`keys/README.md`](keys/README.md). The matching public key (`keys/publisher.pub`) is committed.
+
+Before the first release, configure that secret in the repo's settings (Settings → Secrets and variables → Actions). Without it, the `sign-and-publish` step fails closed.
+
+`task pack` runs the local equivalent of the build + tarball step (no signature unless `AILERON_SIGNING_KEY` is set in the environment). `task pack:hash` prints the SHA-256 of `connector.wasm || manifest.toml` — useful to verify what the release workflow will publish before pushing the tag.
+
+The `0.0.0-dev` strings in `connector/manifest.toml` and every `actions/<name>/action.md` are **load-bearing placeholders** that the release workflow substitutes with the real version. The `sha256:bound-at-release` strings get substituted with the connector's content hash. Do not edit them by hand.
+
 ## ADRs
 
 All ADRs live in [`ALRubinger/aileron/docs/adr/`](https://github.com/ALRubinger/aileron/tree/main/docs/src/content/docs/adr) and are referenced by number. The ones this connector touches most:

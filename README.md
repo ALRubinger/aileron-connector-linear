@@ -57,6 +57,19 @@ task ci              # Full local gate (generate:check + test + vet)
 - **Credential:** API key (`api_key` kind). User issues a key at [linear.app/settings/api](https://linear.app/settings/api) and binds it once via `aileron binding setup`. The runtime injects `Authorization: <api_key>` host-side on every outbound request marked `credential: "api_key"`; the connector binary never sees the value.
 - **Network:** Sandboxed to `api.linear.app:443` only. Anything else is denied at the WASM boundary (ADR-0005).
 
+## Release
+
+Releases are atomic: pushing a `vX.Y.Z` tag triggers `.github/workflows/release.yml`, which builds the WASM connector, signs `connector.wasm || connector/manifest.toml` with the publisher's ed25519 key (from the `AILERON_SIGNING_KEY` repo secret), and publishes:
+
+- A connector tarball under tag `vX.Y.Z` with `connector.wasm`, the version-substituted `manifest.toml`, and the signature.
+- One action tarball per action under tag `actions/<name>/vX.Y.Z`, each carrying the connector's content hash so install-time verification can pin against the exact pair.
+
+The `0.0.0-dev` strings in `connector/manifest.toml` and every `actions/<name>/action.md` are intentional placeholders — CI substitutes them with the real tag at release time. Do not edit them by hand.
+
+`task pack` runs the build + tarball step locally without signing (skip if `AILERON_SIGNING_KEY` is unset). `task pack:hash` prints the SHA-256 of `connector.wasm || manifest.toml` so you can pre-compute what the release workflow will publish.
+
+Publisher signing key (PEM) and the trust-this-publisher instructions live in [`keys/`](keys/README.md).
+
 ## License
 
 Apache-2.0.

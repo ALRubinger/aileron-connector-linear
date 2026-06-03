@@ -21,6 +21,33 @@ tasks:
     cmds:
       - go build -trimpath -ldflags="-s -w" -o ../connector.wasm .
 
+  pack:
+    desc: Build and pack the connector tarball locally (mirrors the CI release workflow's first half — useful for offline smoke testing)
+    deps: [build]
+    cmds:
+      - rm -f connector-payload.bin connector-payload.sig
+      - cat connector.wasm connector/manifest.toml > connector-payload.bin
+      - |
+        if [ -z "$AILERON_SIGNING_KEY" ]; then
+          echo "AILERON_SIGNING_KEY env var not set; skipping signature (local dev)"
+          tar czf aileron.tar.gz connector.wasm connector/manifest.toml
+          exit 0
+        fi
+        printf '%s' "$AILERON_SIGNING_KEY" | base64 -d > /tmp/aileron-signing.key
+        openssl pkeyutl -sign -rawin -inkey /tmp/aileron-signing.key -in connector-payload.bin -out connector-payload.sig
+        rm -f /tmp/aileron-signing.key
+        tar czf aileron.tar.gz connector.wasm connector/manifest.toml connector-payload.sig
+
+  pack:hash:
+    desc: Print what the CI release workflow's connector content hash would be for the current build
+    deps: [build]
+    cmds:
+      - |
+        cat connector.wasm connector/manifest.toml > /tmp/aileron-pack-hash.bin
+        echo -n "sha256:"
+        shasum -a 256 /tmp/aileron-pack-hash.bin | awk '{print $1}'
+        rm -f /tmp/aileron-pack-hash.bin
+
   generate:
     desc: Re-run aileron-codegen against the bundled schema + overlay; rewrites actions/
     cmds:
@@ -73,4 +100,4 @@ tasks:
   clean:
     desc: Remove build artifacts
     cmds:
-      - rm -f connector.wasm connector/coverage.out
+      - rm -f connector.wasm connector-payload.bin connector-payload.sig aileron.tar.gz connector/coverage.out
