@@ -36,8 +36,8 @@ connector:
       - "api.linear.app:443"
 
 suite:
-  name: "linear-issues-and-comments"
-  description: "Read and write to a Linear workspace: fetch an issue by id, look up the authenticated user, create issues, and add comments. Writes are gated on per-call user approval per ADR-0009."
+  name: "linear"
+  description: "Full Linear GraphQL surface — every root-level Query and Mutation field on api.linear.app/graphql is exposed as an action. Reads default to idempotent with no approval; writes default to non-idempotent and per-call user approval per ADR-0009. The four originally hand-picked operations (issue, viewer, issueCreate, commentCreate) keep their tuned action names and capabilities via the overrides below; everything else inherits codegen defaults."
 
 operations:
   issue:

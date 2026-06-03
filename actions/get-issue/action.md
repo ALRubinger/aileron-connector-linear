@@ -21,6 +21,6 @@ idempotent = true
 [[inputs]]
 name = "id"
 type = "String"
-description = "Unique identifier (UUID) of the Linear issue."
+description = "The identifier of the issue to retrieve."
 required = true
 +++
