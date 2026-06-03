@@ -1,0 +1,46 @@
+# gen.yaml — per-operation governance overlay consumed by
+# `aileron-codegen`. The codegen emits `actions/<name>/action.md` files
+# from this overlay + `schema.graphql`. Re-run via `task generate`.
+#
+# Shape (provisional until the codegen umbrella's "stable overlay
+# schema" criterion is met — see ALRubinger/aileron#893):
+#
+#   connector: {name, credential.kind}
+#   operations:
+#     <operationId>:
+#       idempotent: bool
+#       approval: required | none
+#       capabilities: [string]
+#       intent?: string         # default: GraphQL field description
+#       action_name?: string    # default: kebab-case(operationId)
+#       execute_id?: string     # default: first lower-cased word
+
+connector:
+  name: "github://ALRubinger/aileron-connector-linear"
+  credential:
+    kind: "api_key"
+
+operations:
+  issue:
+    idempotent: true
+    approval: none
+    capabilities: ["get_issue"]
+    action_name: "get-issue"
+    execute_id: "get"
+    intent: "fetch a Linear issue by id"
+
+  viewer:
+    idempotent: true
+    approval: none
+    capabilities: ["get_viewer"]
+    intent: "look up the Linear user currently authenticated to the connector"
+
+  issueCreate:
+    idempotent: false
+    approval: required
+    capabilities: ["create_issue"]
+
+  commentCreate:
+    idempotent: false
+    approval: required
+    capabilities: ["create_comment"]

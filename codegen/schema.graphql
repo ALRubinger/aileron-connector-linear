@@ -1,0 +1,82 @@
+"""
+Curated slice of the Linear GraphQL schema covering the v0.0.x action
+surface (issue read, viewer, issue create, comment create). Hand-written
+from Linear's public schema reference; the full SDL is fetched via
+introspection only if the action surface grows past what this slice
+covers.
+"""
+
+type Query {
+  """Fetch one Linear issue by its unique identifier."""
+  issue(
+    """Unique identifier (UUID) of the Linear issue."""
+    id: String!
+  ): Issue
+
+  """Currently authenticated user."""
+  viewer: User
+}
+
+type Mutation {
+  """Create a new Linear issue. Requires per-call user approval."""
+  issueCreate(
+    """Issue input fields."""
+    input: IssueCreateInput!
+  ): IssuePayload!
+
+  """Add a comment to an existing Linear issue. Requires per-call user approval."""
+  commentCreate(
+    """Comment input fields."""
+    input: CommentCreateInput!
+  ): CommentPayload!
+}
+
+input IssueCreateInput {
+  """Issue title."""
+  title: String!
+  """Markdown body of the issue."""
+  description: String
+  """UUID of the target team."""
+  teamId: String!
+  """UUID of the assignee."""
+  assigneeId: String
+  """Priority value: 0 (No priority), 1 (Urgent), 2 (High), 3 (Medium), 4 (Low)."""
+  priority: Int
+}
+
+input CommentCreateInput {
+  """UUID of the issue to comment on."""
+  issueId: String!
+  """Markdown body of the comment."""
+  body: String!
+}
+
+type Issue {
+  id: ID!
+  identifier: String!
+  title: String!
+  description: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String
+}
+
+type IssuePayload {
+  success: Boolean!
+  issue: Issue
+  lastSyncId: Float!
+}
+
+type CommentPayload {
+  success: Boolean!
+  comment: Comment
+  lastSyncId: Float!
+}
+
+type Comment {
+  id: ID!
+  body: String!
+}

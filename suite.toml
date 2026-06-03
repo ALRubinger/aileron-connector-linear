@@ -1,0 +1,9 @@
+name = "linear-issues-and-comments"
+description = "Read and write to a Linear workspace: fetch an issue by id, look up the authenticated user, create issues, and add comments. Writes are gated on per-call user approval per ADR-0009."
+
+actions = [
+  "actions/get-issue",
+  "actions/viewer",
+  "actions/issue-create",
+  "actions/comment-create",
+]
