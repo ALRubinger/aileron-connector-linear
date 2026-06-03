@@ -45,23 +45,16 @@ var knownOps = map[string]bool{
 	"agent_activity":                                    true,
 	"agent_activity_create":                             true,
 	"agent_activity_create_prompt":                      true,
-	"agent_activity_created":                            true,
 	"agent_activity_delete_queued":                      true,
 	"agent_activity_send_queued":                        true,
-	"agent_activity_updated":                            true,
 	"agent_session":                                     true,
 	"agent_session_create":                              true,
 	"agent_session_create_on_comment":                   true,
 	"agent_session_create_on_issue":                     true,
-	"agent_session_created":                             true,
 	"agent_session_sandbox":                             true,
 	"agent_session_update":                              true,
 	"agent_session_update_external_url":                 true,
-	"agent_session_updated":                             true,
 	"agent_sessions":                                    true,
-	"ai_conversation_updated":                           true,
-	"ai_prompt_progress_created":                        true,
-	"ai_prompt_progress_updated":                        true,
 	"airbyte_integration_connect":                       true,
 	"application_info":                                  true,
 	"archived_integrations":                             true,
@@ -91,16 +84,11 @@ var knownOps = map[string]bool{
 	"authentication_sessions":                           true,
 	"available_users":                                   true,
 	"comment":                                           true,
-	"comment_archived":                                  true,
 	"comment_create":                                    true,
-	"comment_created":                                   true,
 	"comment_delete":                                    true,
-	"comment_deleted":                                   true,
 	"comment_resolve":                                   true,
-	"comment_unarchived":                                true,
 	"comment_unresolve":                                 true,
 	"comment_update":                                    true,
-	"comment_updated":                                   true,
 	"comments":                                          true,
 	"contact_create":                                    true,
 	"contact_sales_create":                              true,
@@ -143,35 +131,20 @@ var knownOps = map[string]bool{
 	"customers":                                         true,
 	"cycle":                                             true,
 	"cycle_archive":                                     true,
-	"cycle_archived":                                    true,
 	"cycle_create":                                      true,
-	"cycle_created":                                     true,
 	"cycle_shift_all":                                   true,
 	"cycle_start_upcoming_cycle_today":                  true,
 	"cycle_update":                                      true,
-	"cycle_updated":                                     true,
 	"cycles":                                            true,
 	"document":                                          true,
-	"document_archived":                                 true,
-	"document_content_created":                          true,
-	"document_content_draft_created":                    true,
-	"document_content_draft_deleted":                    true,
-	"document_content_draft_updated":                    true,
 	"document_content_history":                          true,
 	"document_content_history_entries":                  true,
 	"document_content_history_timeline":                 true,
-	"document_content_updated":                          true,
 	"document_create":                                   true,
-	"document_created":                                  true,
 	"document_delete":                                   true,
 	"document_unarchive":                                true,
-	"document_unarchived":                               true,
 	"document_update":                                   true,
-	"document_updated":                                  true,
 	"documents":                                         true,
-	"draft_created":                                     true,
-	"draft_deleted":                                     true,
-	"draft_updated":                                     true,
 	"dummy":                                             true,
 	"email_intake_address":                              true,
 	"email_intake_address_create":                       true,
@@ -194,11 +167,8 @@ var knownOps = map[string]bool{
 	"failures_for_oauth_webhooks":                       true,
 	"favorite":                                          true,
 	"favorite_create":                                   true,
-	"favorite_created":                                  true,
 	"favorite_delete":                                   true,
-	"favorite_deleted":                                  true,
 	"favorite_update":                                   true,
-	"favorite_updated":                                  true,
 	"favorites":                                         true,
 	"fetch_data":                                        true,
 	"file_upload":                                       true,
@@ -216,9 +186,7 @@ var knownOps = map[string]bool{
 	"initiative_add_label":                              true,
 	"initiative_archive":                                true,
 	"initiative_create":                                 true,
-	"initiative_created":                                true,
 	"initiative_delete":                                 true,
-	"initiative_deleted":                                true,
 	"initiative_relation":                               true,
 	"initiative_relation_create":                        true,
 	"initiative_relation_delete":                        true,
@@ -237,7 +205,6 @@ var knownOps = map[string]bool{
 	"initiative_update_mutation":                        true,
 	"initiative_update_unarchive":                       true,
 	"initiative_update_update":                          true,
-	"initiative_updated":                                true,
 	"initiative_updates":                                true,
 	"initiatives":                                       true,
 	"integration":                                       true,
@@ -310,21 +277,14 @@ var knownOps = map[string]bool{
 	"issue":                                             true,
 	"issue_add_label":                                   true,
 	"issue_archive":                                     true,
-	"issue_archived":                                    true,
 	"issue_batch_create":                                true,
 	"issue_batch_update":                                true,
 	"issue_create":                                      true,
-	"issue_created":                                     true,
 	"issue_delete":                                      true,
 	"issue_description_update_from_front":               true,
-	"issue_draft_created":                               true,
-	"issue_draft_deleted":                               true,
-	"issue_draft_updated":                               true,
 	"issue_external_sync_disable":                       true,
 	"issue_figma_file_key_search":                       true,
 	"issue_filter_suggestion":                           true,
-	"issue_history_created":                             true,
-	"issue_history_updated":                             true,
 	"issue_import_check_c_s_v":                          true,
 	"issue_import_check_sync":                           true,
 	"issue_import_create_asana":                         true,
@@ -339,22 +299,16 @@ var knownOps = map[string]bool{
 	"issue_import_update":                               true,
 	"issue_label":                                       true,
 	"issue_label_create":                                true,
-	"issue_label_created":                               true,
 	"issue_label_delete":                                true,
-	"issue_label_deleted":                               true,
 	"issue_label_restore":                               true,
 	"issue_label_retire":                                true,
 	"issue_label_update":                                true,
-	"issue_label_updated":                               true,
 	"issue_labels":                                      true,
 	"issue_priority_values":                             true,
 	"issue_relation":                                    true,
 	"issue_relation_create":                             true,
-	"issue_relation_created":                            true,
 	"issue_relation_delete":                             true,
-	"issue_relation_deleted":                            true,
 	"issue_relation_update":                             true,
-	"issue_relation_updated":                            true,
 	"issue_relations":                                   true,
 	"issue_reminder":                                    true,
 	"issue_remove_label":                                true,
@@ -369,11 +323,9 @@ var knownOps = map[string]bool{
 	"issue_to_release_delete_by_issue_and_release":      true,
 	"issue_to_releases":                                 true,
 	"issue_unarchive":                                   true,
-	"issue_unarchived":                                  true,
 	"issue_unshare":                                     true,
 	"issue_unsubscribe":                                 true,
 	"issue_update":                                      true,
-	"issue_updated":                                     true,
 	"issue_vcs_branch_search":                           true,
 	"issues":                                            true,
 	"jira_integration_connect":                          true,
@@ -388,10 +340,7 @@ var knownOps = map[string]bool{
 	"notification":                                      true,
 	"notification_archive":                              true,
 	"notification_archive_all":                          true,
-	"notification_archived":                             true,
 	"notification_category_channel_subscription_update": true,
-	"notification_created":                              true,
-	"notification_deleted":                              true,
 	"notification_mark_read_all":                        true,
 	"notification_mark_unread_all":                      true,
 	"notification_snooze_all":                           true,
@@ -401,10 +350,8 @@ var knownOps = map[string]bool{
 	"notification_subscription_update":                  true,
 	"notification_subscriptions":                        true,
 	"notification_unarchive":                            true,
-	"notification_unarchived":                           true,
 	"notification_unsnooze_all":                         true,
 	"notification_update":                               true,
-	"notification_updated":                              true,
 	"notifications":                                     true,
 	"notifications_unread_count":                        true,
 	"oauth_application":                                 true,
@@ -435,16 +382,13 @@ var knownOps = map[string]bool{
 	"organization_start_trial":                          true,
 	"organization_start_trial_for_plan":                 true,
 	"organization_update":                               true,
-	"organization_updated":                              true,
 	"passkey_login_finish":                              true,
 	"passkey_login_start":                               true,
 	"project":                                           true,
 	"project_add_label":                                 true,
 	"project_archive":                                   true,
-	"project_archived":                                  true,
 	"project_create":                                    true,
 	"project_create_slack_channel":                      true,
-	"project_created":                                   true,
 	"project_delete":                                    true,
 	"project_external_sync_disable":                     true,
 	"project_filter_suggestion":                         true,
@@ -476,19 +420,13 @@ var knownOps = map[string]bool{
 	"project_status_update":                             true,
 	"project_statuses":                                  true,
 	"project_unarchive":                                 true,
-	"project_unarchived":                                true,
 	"project_update":                                    true,
 	"project_update_archive":                            true,
-	"project_update_archived":                           true,
 	"project_update_create":                             true,
-	"project_update_created":                            true,
 	"project_update_delete":                             true,
-	"project_update_deleted":                            true,
 	"project_update_mutation":                           true,
 	"project_update_unarchive":                          true,
 	"project_update_update":                             true,
-	"project_update_updated":                            true,
-	"project_updated":                                   true,
 	"project_updates":                                   true,
 	"projects":                                          true,
 	"push_subscription_create":                          true,
@@ -537,9 +475,7 @@ var knownOps = map[string]bool{
 	"roadmap":                                           true,
 	"roadmap_archive":                                   true,
 	"roadmap_create":                                    true,
-	"roadmap_created":                                   true,
 	"roadmap_delete":                                    true,
-	"roadmap_deleted":                                   true,
 	"roadmap_to_project":                                true,
 	"roadmap_to_project_create":                         true,
 	"roadmap_to_project_delete":                         true,
@@ -547,7 +483,6 @@ var knownOps = map[string]bool{
 	"roadmap_to_projects":                               true,
 	"roadmap_unarchive":                                 true,
 	"roadmap_update":                                    true,
-	"roadmap_updated":                                   true,
 	"roadmaps":                                          true,
 	"saml_token_user_account_auth":                      true,
 	"search_documents":                                  true,
@@ -558,22 +493,16 @@ var knownOps = map[string]bool{
 	"sso_url_from_email":                                true,
 	"team":                                              true,
 	"team_create":                                       true,
-	"team_created":                                      true,
 	"team_cycles_delete":                                true,
 	"team_delete":                                       true,
-	"team_deleted":                                      true,
 	"team_key_delete":                                   true,
 	"team_membership":                                   true,
 	"team_membership_create":                            true,
-	"team_membership_created":                           true,
 	"team_membership_delete":                            true,
-	"team_membership_deleted":                           true,
 	"team_membership_update":                            true,
-	"team_membership_updated":                           true,
 	"team_memberships":                                  true,
 	"team_unarchive":                                    true,
 	"team_update":                                       true,
-	"team_updated":                                      true,
 	"teams":                                             true,
 	"template":                                          true,
 	"template_create":                                   true,
@@ -597,7 +526,6 @@ var knownOps = map[string]bool{
 	"update_integration_slack_scopes":                   true,
 	"user":                                              true,
 	"user_change_role":                                  true,
-	"user_created":                                      true,
 	"user_discord_connect":                              true,
 	"user_external_user_disconnect":                     true,
 	"user_flag_update":                                  true,
@@ -611,7 +539,6 @@ var knownOps = map[string]bool{
 	"user_unlink_from_identity_provider":                true,
 	"user_unsuspend":                                    true,
 	"user_update":                                       true,
-	"user_updated":                                      true,
 	"users":                                             true,
 	"verify_git_hub_enterprise_server_installation":     true,
 	"view_preferences_create":                           true,
@@ -626,11 +553,8 @@ var knownOps = map[string]bool{
 	"webhooks":                                          true,
 	"workflow_state":                                    true,
 	"workflow_state_archive":                            true,
-	"workflow_state_archived":                           true,
 	"workflow_state_create":                             true,
-	"workflow_state_created":                            true,
 	"workflow_state_update":                             true,
-	"workflow_state_updated":                            true,
 	"workflow_states":                                   true,
 }
 
@@ -676,14 +600,10 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleAgentActivityCreate(args, transport)
 	case "agent_activity_create_prompt":
 		return handleAgentActivityCreatePrompt(args, transport)
-	case "agent_activity_created":
-		return handleAgentActivityCreated(args, transport)
 	case "agent_activity_delete_queued":
 		return handleAgentActivityDeleteQueued(args, transport)
 	case "agent_activity_send_queued":
 		return handleAgentActivitySendQueued(args, transport)
-	case "agent_activity_updated":
-		return handleAgentActivityUpdated(args, transport)
 	case "agent_session":
 		return handleAgentSession(args, transport)
 	case "agent_session_create":
@@ -692,24 +612,14 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleAgentSessionCreateOnComment(args, transport)
 	case "agent_session_create_on_issue":
 		return handleAgentSessionCreateOnIssue(args, transport)
-	case "agent_session_created":
-		return handleAgentSessionCreated(args, transport)
 	case "agent_session_sandbox":
 		return handleAgentSessionSandbox(args, transport)
 	case "agent_session_update":
 		return handleAgentSessionUpdate(args, transport)
 	case "agent_session_update_external_url":
 		return handleAgentSessionUpdateExternalUrl(args, transport)
-	case "agent_session_updated":
-		return handleAgentSessionUpdated(args, transport)
 	case "agent_sessions":
 		return handleAgentSessions(args, transport)
-	case "ai_conversation_updated":
-		return handleAiConversationUpdated(args, transport)
-	case "ai_prompt_progress_created":
-		return handleAiPromptProgressCreated(args, transport)
-	case "ai_prompt_progress_updated":
-		return handleAiPromptProgressUpdated(args, transport)
 	case "airbyte_integration_connect":
 		return handleAirbyteIntegrationConnect(args, transport)
 	case "application_info":
@@ -768,26 +678,16 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleAvailableUsers(args, transport)
 	case "comment":
 		return handleComment(args, transport)
-	case "comment_archived":
-		return handleCommentArchived(args, transport)
 	case "comment_create":
 		return handleCommentCreate(args, transport)
-	case "comment_created":
-		return handleCommentCreated(args, transport)
 	case "comment_delete":
 		return handleCommentDelete(args, transport)
-	case "comment_deleted":
-		return handleCommentDeleted(args, transport)
 	case "comment_resolve":
 		return handleCommentResolve(args, transport)
-	case "comment_unarchived":
-		return handleCommentUnarchived(args, transport)
 	case "comment_unresolve":
 		return handleCommentUnresolve(args, transport)
 	case "comment_update":
 		return handleCommentUpdate(args, transport)
-	case "comment_updated":
-		return handleCommentUpdated(args, transport)
 	case "comments":
 		return handleComments(args, transport)
 	case "contact_create":
@@ -872,64 +772,34 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleCycle(args, transport)
 	case "cycle_archive":
 		return handleCycleArchive(args, transport)
-	case "cycle_archived":
-		return handleCycleArchived(args, transport)
 	case "cycle_create":
 		return handleCycleCreate(args, transport)
-	case "cycle_created":
-		return handleCycleCreated(args, transport)
 	case "cycle_shift_all":
 		return handleCycleShiftAll(args, transport)
 	case "cycle_start_upcoming_cycle_today":
 		return handleCycleStartUpcomingCycleToday(args, transport)
 	case "cycle_update":
 		return handleCycleUpdate(args, transport)
-	case "cycle_updated":
-		return handleCycleUpdated(args, transport)
 	case "cycles":
 		return handleCycles(args, transport)
 	case "document":
 		return handleDocument(args, transport)
-	case "document_archived":
-		return handleDocumentArchived(args, transport)
-	case "document_content_created":
-		return handleDocumentContentCreated(args, transport)
-	case "document_content_draft_created":
-		return handleDocumentContentDraftCreated(args, transport)
-	case "document_content_draft_deleted":
-		return handleDocumentContentDraftDeleted(args, transport)
-	case "document_content_draft_updated":
-		return handleDocumentContentDraftUpdated(args, transport)
 	case "document_content_history":
 		return handleDocumentContentHistory(args, transport)
 	case "document_content_history_entries":
 		return handleDocumentContentHistoryEntries(args, transport)
 	case "document_content_history_timeline":
 		return handleDocumentContentHistoryTimeline(args, transport)
-	case "document_content_updated":
-		return handleDocumentContentUpdated(args, transport)
 	case "document_create":
 		return handleDocumentCreate(args, transport)
-	case "document_created":
-		return handleDocumentCreated(args, transport)
 	case "document_delete":
 		return handleDocumentDelete(args, transport)
 	case "document_unarchive":
 		return handleDocumentUnarchive(args, transport)
-	case "document_unarchived":
-		return handleDocumentUnarchived(args, transport)
 	case "document_update":
 		return handleDocumentUpdate(args, transport)
-	case "document_updated":
-		return handleDocumentUpdated(args, transport)
 	case "documents":
 		return handleDocuments(args, transport)
-	case "draft_created":
-		return handleDraftCreated(args, transport)
-	case "draft_deleted":
-		return handleDraftDeleted(args, transport)
-	case "draft_updated":
-		return handleDraftUpdated(args, transport)
 	case "dummy":
 		return handle_dummy(args, transport)
 	case "email_intake_address":
@@ -974,16 +844,10 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleFavorite(args, transport)
 	case "favorite_create":
 		return handleFavoriteCreate(args, transport)
-	case "favorite_created":
-		return handleFavoriteCreated(args, transport)
 	case "favorite_delete":
 		return handleFavoriteDelete(args, transport)
-	case "favorite_deleted":
-		return handleFavoriteDeleted(args, transport)
 	case "favorite_update":
 		return handleFavoriteUpdate(args, transport)
-	case "favorite_updated":
-		return handleFavoriteUpdated(args, transport)
 	case "favorites":
 		return handleFavorites(args, transport)
 	case "fetch_data":
@@ -1018,12 +882,8 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleInitiativeArchive(args, transport)
 	case "initiative_create":
 		return handleInitiativeCreate(args, transport)
-	case "initiative_created":
-		return handleInitiativeCreated(args, transport)
 	case "initiative_delete":
 		return handleInitiativeDelete(args, transport)
-	case "initiative_deleted":
-		return handleInitiativeDeleted(args, transport)
 	case "initiative_relation":
 		return handleInitiativeRelation(args, transport)
 	case "initiative_relation_create":
@@ -1060,8 +920,6 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleInitiativeUpdateUnarchive(args, transport)
 	case "initiative_update_update":
 		return handleInitiativeUpdateUpdate(args, transport)
-	case "initiative_updated":
-		return handleInitiativeUpdated(args, transport)
 	case "initiative_updates":
 		return handleInitiativeUpdates(args, transport)
 	case "initiatives":
@@ -1206,36 +1064,22 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleIssueAddLabel(args, transport)
 	case "issue_archive":
 		return handleIssueArchive(args, transport)
-	case "issue_archived":
-		return handleIssueArchived(args, transport)
 	case "issue_batch_create":
 		return handleIssueBatchCreate(args, transport)
 	case "issue_batch_update":
 		return handleIssueBatchUpdate(args, transport)
 	case "issue_create":
 		return handleIssueCreate(args, transport)
-	case "issue_created":
-		return handleIssueCreated(args, transport)
 	case "issue_delete":
 		return handleIssueDelete(args, transport)
 	case "issue_description_update_from_front":
 		return handleIssueDescriptionUpdateFromFront(args, transport)
-	case "issue_draft_created":
-		return handleIssueDraftCreated(args, transport)
-	case "issue_draft_deleted":
-		return handleIssueDraftDeleted(args, transport)
-	case "issue_draft_updated":
-		return handleIssueDraftUpdated(args, transport)
 	case "issue_external_sync_disable":
 		return handleIssueExternalSyncDisable(args, transport)
 	case "issue_figma_file_key_search":
 		return handleIssueFigmaFileKeySearch(args, transport)
 	case "issue_filter_suggestion":
 		return handleIssueFilterSuggestion(args, transport)
-	case "issue_history_created":
-		return handleIssueHistoryCreated(args, transport)
-	case "issue_history_updated":
-		return handleIssueHistoryUpdated(args, transport)
 	case "issue_import_check_c_s_v":
 		return handleIssueImportCheckCSV(args, transport)
 	case "issue_import_check_sync":
@@ -1264,20 +1108,14 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleIssueLabel(args, transport)
 	case "issue_label_create":
 		return handleIssueLabelCreate(args, transport)
-	case "issue_label_created":
-		return handleIssueLabelCreated(args, transport)
 	case "issue_label_delete":
 		return handleIssueLabelDelete(args, transport)
-	case "issue_label_deleted":
-		return handleIssueLabelDeleted(args, transport)
 	case "issue_label_restore":
 		return handleIssueLabelRestore(args, transport)
 	case "issue_label_retire":
 		return handleIssueLabelRetire(args, transport)
 	case "issue_label_update":
 		return handleIssueLabelUpdate(args, transport)
-	case "issue_label_updated":
-		return handleIssueLabelUpdated(args, transport)
 	case "issue_labels":
 		return handleIssueLabels(args, transport)
 	case "issue_priority_values":
@@ -1286,16 +1124,10 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleIssueRelation(args, transport)
 	case "issue_relation_create":
 		return handleIssueRelationCreate(args, transport)
-	case "issue_relation_created":
-		return handleIssueRelationCreated(args, transport)
 	case "issue_relation_delete":
 		return handleIssueRelationDelete(args, transport)
-	case "issue_relation_deleted":
-		return handleIssueRelationDeleted(args, transport)
 	case "issue_relation_update":
 		return handleIssueRelationUpdate(args, transport)
-	case "issue_relation_updated":
-		return handleIssueRelationUpdated(args, transport)
 	case "issue_relations":
 		return handleIssueRelations(args, transport)
 	case "issue_reminder":
@@ -1324,16 +1156,12 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleIssueToReleases(args, transport)
 	case "issue_unarchive":
 		return handleIssueUnarchive(args, transport)
-	case "issue_unarchived":
-		return handleIssueUnarchived(args, transport)
 	case "issue_unshare":
 		return handleIssueUnshare(args, transport)
 	case "issue_unsubscribe":
 		return handleIssueUnsubscribe(args, transport)
 	case "issue_update":
 		return handleIssueUpdate(args, transport)
-	case "issue_updated":
-		return handleIssueUpdated(args, transport)
 	case "issue_vcs_branch_search":
 		return handleIssueVcsBranchSearch(args, transport)
 	case "issues":
@@ -1362,14 +1190,8 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleNotificationArchive(args, transport)
 	case "notification_archive_all":
 		return handleNotificationArchiveAll(args, transport)
-	case "notification_archived":
-		return handleNotificationArchived(args, transport)
 	case "notification_category_channel_subscription_update":
 		return handleNotificationCategoryChannelSubscriptionUpdate(args, transport)
-	case "notification_created":
-		return handleNotificationCreated(args, transport)
-	case "notification_deleted":
-		return handleNotificationDeleted(args, transport)
 	case "notification_mark_read_all":
 		return handleNotificationMarkReadAll(args, transport)
 	case "notification_mark_unread_all":
@@ -1388,14 +1210,10 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleNotificationSubscriptions(args, transport)
 	case "notification_unarchive":
 		return handleNotificationUnarchive(args, transport)
-	case "notification_unarchived":
-		return handleNotificationUnarchived(args, transport)
 	case "notification_unsnooze_all":
 		return handleNotificationUnsnoozeAll(args, transport)
 	case "notification_update":
 		return handleNotificationUpdate(args, transport)
-	case "notification_updated":
-		return handleNotificationUpdated(args, transport)
 	case "notifications":
 		return handleNotifications(args, transport)
 	case "notifications_unread_count":
@@ -1456,8 +1274,6 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleOrganizationStartTrialForPlan(args, transport)
 	case "organization_update":
 		return handleOrganizationUpdate(args, transport)
-	case "organization_updated":
-		return handleOrganizationUpdated(args, transport)
 	case "passkey_login_finish":
 		return handlePasskeyLoginFinish(args, transport)
 	case "passkey_login_start":
@@ -1468,14 +1284,10 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleProjectAddLabel(args, transport)
 	case "project_archive":
 		return handleProjectArchive(args, transport)
-	case "project_archived":
-		return handleProjectArchived(args, transport)
 	case "project_create":
 		return handleProjectCreate(args, transport)
 	case "project_create_slack_channel":
 		return handleProjectCreateSlackChannel(args, transport)
-	case "project_created":
-		return handleProjectCreated(args, transport)
 	case "project_delete":
 		return handleProjectDelete(args, transport)
 	case "project_external_sync_disable":
@@ -1538,32 +1350,20 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleProjectStatuses(args, transport)
 	case "project_unarchive":
 		return handleProjectUnarchive(args, transport)
-	case "project_unarchived":
-		return handleProjectUnarchived(args, transport)
 	case "project_update":
 		return handleProjectUpdate(args, transport)
 	case "project_update_archive":
 		return handleProjectUpdateArchive(args, transport)
-	case "project_update_archived":
-		return handleProjectUpdateArchived(args, transport)
 	case "project_update_create":
 		return handleProjectUpdateCreate(args, transport)
-	case "project_update_created":
-		return handleProjectUpdateCreated(args, transport)
 	case "project_update_delete":
 		return handleProjectUpdateDelete(args, transport)
-	case "project_update_deleted":
-		return handleProjectUpdateDeleted(args, transport)
 	case "project_update_mutation":
 		return handleProjectUpdateMutation(args, transport)
 	case "project_update_unarchive":
 		return handleProjectUpdateUnarchive(args, transport)
 	case "project_update_update":
 		return handleProjectUpdateUpdate(args, transport)
-	case "project_update_updated":
-		return handleProjectUpdateUpdated(args, transport)
-	case "project_updated":
-		return handleProjectUpdated(args, transport)
 	case "project_updates":
 		return handleProjectUpdates(args, transport)
 	case "projects":
@@ -1660,12 +1460,8 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleRoadmapArchive(args, transport)
 	case "roadmap_create":
 		return handleRoadmapCreate(args, transport)
-	case "roadmap_created":
-		return handleRoadmapCreated(args, transport)
 	case "roadmap_delete":
 		return handleRoadmapDelete(args, transport)
-	case "roadmap_deleted":
-		return handleRoadmapDeleted(args, transport)
 	case "roadmap_to_project":
 		return handleRoadmapToProject(args, transport)
 	case "roadmap_to_project_create":
@@ -1680,8 +1476,6 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleRoadmapUnarchive(args, transport)
 	case "roadmap_update":
 		return handleRoadmapUpdate(args, transport)
-	case "roadmap_updated":
-		return handleRoadmapUpdated(args, transport)
 	case "roadmaps":
 		return handleRoadmaps(args, transport)
 	case "saml_token_user_account_auth":
@@ -1702,38 +1496,26 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleTeam(args, transport)
 	case "team_create":
 		return handleTeamCreate(args, transport)
-	case "team_created":
-		return handleTeamCreated(args, transport)
 	case "team_cycles_delete":
 		return handleTeamCyclesDelete(args, transport)
 	case "team_delete":
 		return handleTeamDelete(args, transport)
-	case "team_deleted":
-		return handleTeamDeleted(args, transport)
 	case "team_key_delete":
 		return handleTeamKeyDelete(args, transport)
 	case "team_membership":
 		return handleTeamMembership(args, transport)
 	case "team_membership_create":
 		return handleTeamMembershipCreate(args, transport)
-	case "team_membership_created":
-		return handleTeamMembershipCreated(args, transport)
 	case "team_membership_delete":
 		return handleTeamMembershipDelete(args, transport)
-	case "team_membership_deleted":
-		return handleTeamMembershipDeleted(args, transport)
 	case "team_membership_update":
 		return handleTeamMembershipUpdate(args, transport)
-	case "team_membership_updated":
-		return handleTeamMembershipUpdated(args, transport)
 	case "team_memberships":
 		return handleTeamMemberships(args, transport)
 	case "team_unarchive":
 		return handleTeamUnarchive(args, transport)
 	case "team_update":
 		return handleTeamUpdate(args, transport)
-	case "team_updated":
-		return handleTeamUpdated(args, transport)
 	case "teams":
 		return handleTeams(args, transport)
 	case "template":
@@ -1780,8 +1562,6 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleUser(args, transport)
 	case "user_change_role":
 		return handleUserChangeRole(args, transport)
-	case "user_created":
-		return handleUserCreated(args, transport)
 	case "user_discord_connect":
 		return handleUserDiscordConnect(args, transport)
 	case "user_external_user_disconnect":
@@ -1808,8 +1588,6 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleUserUnsuspend(args, transport)
 	case "user_update":
 		return handleUserUpdate(args, transport)
-	case "user_updated":
-		return handleUserUpdated(args, transport)
 	case "users":
 		return handleUsers(args, transport)
 	case "verify_git_hub_enterprise_server_installation":
@@ -1838,16 +1616,10 @@ func handle(op string, args map[string]any, transport Transport) (map[string]any
 		return handleWorkflowState(args, transport)
 	case "workflow_state_archive":
 		return handleWorkflowStateArchive(args, transport)
-	case "workflow_state_archived":
-		return handleWorkflowStateArchived(args, transport)
 	case "workflow_state_create":
 		return handleWorkflowStateCreate(args, transport)
-	case "workflow_state_created":
-		return handleWorkflowStateCreated(args, transport)
 	case "workflow_state_update":
 		return handleWorkflowStateUpdate(args, transport)
-	case "workflow_state_updated":
-		return handleWorkflowStateUpdated(args, transport)
 	case "workflow_states":
 		return handleWorkflowStates(args, transport)
 	}
