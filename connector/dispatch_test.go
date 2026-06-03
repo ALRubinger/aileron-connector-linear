@@ -4,6 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"os"
+	"path/filepath"
+	"regexp"
 	"strings"
 	"testing"
 )
@@ -164,20 +167,49 @@ func TestRun_HTTPNon2xx(t *testing.T) {
 	}
 }
 
-func TestKnownOpsMatchSuiteToml(t *testing.T) {
-	// op (snake_case) → expected actions/<dir> as listed in suite.toml.
-	expected := map[string]string{
-		"issue":          "actions/get-issue",
-		"viewer":         "actions/viewer",
-		"issue_create":   "actions/issue-create",
-		"comment_create": "actions/comment-create",
+func TestKnownOpsMatchActionsTree(t *testing.T) {
+	// Cross-check: every actions/<dir>/action.md's `op = "..."` value
+	// is in knownOps, and every knownOps entry is referenced by exactly
+	// one action.md. Derived dynamically from the generated tree so the
+	// invariant holds as the SDL surface grows — no hand-maintained
+	// expected list.
+	actionsDir := filepath.Join("..", "actions")
+	entries, err := os.ReadDir(actionsDir)
+	if err != nil {
+		t.Fatalf("read %s: %v", actionsDir, err)
 	}
-	if len(expected) != len(knownOps) {
-		t.Fatalf("expected/knownOps length mismatch: %d vs %d", len(expected), len(knownOps))
+	opLine := regexp.MustCompile(`(?m)^op\s*=\s*"([^"]+)"`)
+	actionOps := make(map[string]string, len(entries))
+	for _, e := range entries {
+		if !e.IsDir() {
+			continue
+		}
+		path := filepath.Join(actionsDir, e.Name(), "action.md")
+		body, err := os.ReadFile(path)
+		if err != nil {
+			t.Errorf("read %s: %v", path, err)
+			continue
+		}
+		m := opLine.FindSubmatch(body)
+		if m == nil {
+			t.Errorf("%s: no `op = \"...\"` line", path)
+			continue
+		}
+		op := string(m[1])
+		if prev, dup := actionOps[op]; dup {
+			t.Errorf("op %q referenced by both %s and %s", op, prev, e.Name())
+			continue
+		}
+		actionOps[op] = e.Name()
+	}
+	for op := range actionOps {
+		if !knownOps[op] {
+			t.Errorf("action %s references op %q absent from knownOps", actionOps[op], op)
+		}
 	}
 	for op := range knownOps {
-		if _, ok := expected[op]; !ok {
-			t.Errorf("knownOps has %q but no expected action mapping", op)
+		if _, ok := actionOps[op]; !ok {
+			t.Errorf("knownOps has %q but no action.md references it", op)
 		}
 	}
 }

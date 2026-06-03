@@ -57,7 +57,7 @@ tasks:
       # makes `generate:check` fail on freshly-pushed codegen changes.
       # Switch to a semver tag once the overlay schema stabilizes per
       # ALRubinger/aileron#893 (umbrella).
-      - go run github.com/ALRubinger/aileron-codegen/cmd/aileron-codegen@4c80d12e687524b7946e4c6fb43c3cdb6e09e1da --spec codegen/schema.graphql --overlay codegen/gen.yaml --out .
+      - go run github.com/ALRubinger/aileron-codegen/cmd/aileron-codegen@3cd688db1b884146b4d4d7214f4addc5becd9bd3 --spec codegen/schema.graphql --overlay codegen/gen.yaml --out .
 
   generate:check:
     desc: Verify the committed actions/ matches what codegen would emit. CI guard.

@@ -90,6 +90,13 @@ func TestHandlers_GraphQLQueryPayload(t *testing.T) {
 }
 
 func TestHandlers_MissingRequiredArg(t *testing.T) {
+	// Only assert cases where the field is declared with `!` in Linear's
+	// SDL — Query.issue(id: String!) and IssueCreateInput.teamId: String!.
+	// CommentCreateInput.body / .issueId and IssueCreateInput.title are
+	// nullable in the full schema, so missing them is not a handler
+	// error; Linear's API rejects the resulting mutation at the server
+	// boundary. Don't add a case here without first confirming the SDL
+	// marks the field non-null.
 	mt := &mockTransport{}
 	cases := []struct {
 		name   string
@@ -97,10 +104,7 @@ func TestHandlers_MissingRequiredArg(t *testing.T) {
 		invoke func(map[string]any, Transport) (map[string]any, error)
 	}{
 		{"issue without id", map[string]any{}, handleIssue},
-		{"issueCreate without title", map[string]any{"teamId": "team_1"}, handleIssueCreate},
 		{"issueCreate without teamId", map[string]any{"title": "x"}, handleIssueCreate},
-		{"commentCreate without issueId", map[string]any{"body": "x"}, handleCommentCreate},
-		{"commentCreate without body", map[string]any{"issueId": "x"}, handleCommentCreate},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {

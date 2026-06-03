@@ -1,0 +1,29 @@
++++
+name = "attachment-delete"
+version = "0.0.0-dev"
+source = "github://ALRubinger/aileron-connector-linear/actions/attachment-delete@0.0.0-dev"
+
+[[requires.connectors]]
+name = "github://ALRubinger/aileron-connector-linear"
+version = "0.0.0-dev"
+hash = "sha256:bound-at-release"
+capabilities = ["attachment_delete"]
+
+[match]
+intent = "Deletes an issue attachment."
+
+[[execute]]
+id = "attachment"
+connector = "github://ALRubinger/aileron-connector-linear"
+op = "attachment_delete"
+idempotent = false
+
+[approval]
+required = true
+
+[[inputs]]
+name = "id"
+type = "String"
+description = "The identifier of the attachment to delete."
+required = true
++++

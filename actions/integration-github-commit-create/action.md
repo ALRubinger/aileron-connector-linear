@@ -1,0 +1,23 @@
++++
+name = "integration-github-commit-create"
+version = "0.0.0-dev"
+source = "github://ALRubinger/aileron-connector-linear/actions/integration-github-commit-create@0.0.0-dev"
+
+[[requires.connectors]]
+name = "github://ALRubinger/aileron-connector-linear"
+version = "0.0.0-dev"
+hash = "sha256:bound-at-release"
+capabilities = ["integration_github_commit_create"]
+
+[match]
+intent = "Generates a webhook for the GitHub commit integration."
+
+[[execute]]
+id = "integration"
+connector = "github://ALRubinger/aileron-connector-linear"
+op = "integration_github_commit_create"
+idempotent = false
+
+[approval]
+required = true
++++
