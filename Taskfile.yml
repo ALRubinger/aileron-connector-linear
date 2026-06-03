@@ -51,11 +51,13 @@ tasks:
   generate:
     desc: Re-run aileron-codegen against the bundled schema + overlay; rewrites actions/
     cmds:
-      # Pinned to @latest while aileron-codegen is pre-release. Will switch
-      # to a tagged version once the overlay schema stabilizes — see
-      # ALRubinger/aileron#893 (umbrella) and ALRubinger/aileron-codegen
-      # AGENTS.md for the gate.
-      - go run github.com/ALRubinger/aileron-codegen/cmd/aileron-codegen@latest --spec codegen/schema.graphql --overlay codegen/gen.yaml --out .
+      # Pinned to a specific commit SHA while aileron-codegen is
+      # pre-release — `@latest` resolves through the module proxy's
+      # cache and lags behind the actual repo HEAD for hours, which
+      # makes `generate:check` fail on freshly-pushed codegen changes.
+      # Switch to a semver tag once the overlay schema stabilizes per
+      # ALRubinger/aileron#893 (umbrella).
+      - go run github.com/ALRubinger/aileron-codegen/cmd/aileron-codegen@3b3228233e5e1ff83be9c3409fa7b4221349c790 --spec codegen/schema.graphql --overlay codegen/gen.yaml --out .
 
   generate:check:
     desc: Verify the committed actions/ matches what codegen would emit. CI guard.
