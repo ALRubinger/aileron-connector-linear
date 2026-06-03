@@ -35,6 +35,9 @@ go.work.sum
 connector.wasm
 connector-payload.bin
 connector-payload.sig
+aileron.tar.gz
+aileron-action-*.tar.gz
+aileron-action.tar.gz
 
 # Task — checksum cache for sources/generates
 .task/
