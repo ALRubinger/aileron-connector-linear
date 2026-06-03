@@ -5,17 +5,17 @@
 # License: MIT (linear/linear is MIT-licensed; vendoring the SDL inherits)
 #
 # Consumed by aileron-codegen via `task generate` to emit one
-# actions/<name>/action.md per root field on type Query, type Mutation,
-# and type Subscription, plus the connector/handlers.go +
-# connector/dispatch.go pair. Re-fetch from the same upstream path to
-# refresh — do not hand-edit.
+# actions/<name>/action.md per root field on type Query and type
+# Mutation, plus the connector/handlers.go + connector/dispatch.go
+# pair. Re-fetch from the same upstream path to refresh — do not
+# hand-edit.
 #
-# Subscription handlers currently dispatch as HTTP POSTs against the
-# GraphQL endpoint, which is not a working transport for subscriptions
-# (the GraphQL spec assumes a streaming transport — Linear uses WebSocket
-# graphql-ws). The action.md surface still documents the field for
-# discovery; runtime behavior is a follow-up tracked back in
-# aileron-codegen — do not work around it by hand-editing handlers.go.
+# Subscription root fields in this schema are skipped by the codegen
+# loader (see aileron-codegen#19): single-shot HTTP POST is not a
+# working transport for GraphQL subscriptions, and Linear's recommended
+# real-time integration path is webhooks anyway (the `webhook-create`
+# action covers it). The codegen prints a one-line stderr notice with
+# the skipped count at generate time.
 
 schema {
   query: Query
