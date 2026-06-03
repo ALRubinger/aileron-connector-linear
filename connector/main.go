@@ -3,6 +3,14 @@
 // (`GOOS=wasip1 GOARCH=wasm`) and reads JSON-shaped op dispatches from
 // stdin, writing JSON results to stdout.
 //
+// This file is wasip1-tagged because it imports `aileron_host`, the
+// runtime's host-import ABI for outbound HTTP. The dispatch core and
+// per-op handlers live in dispatch.go / handlers.go / graphql.go,
+// which build on every Go target so `go test` exercises them on the
+// host platform with a mock Transport. The non-wasip1 main() lives
+// in transport_host.go alongside the always-fail host-side transport
+// stub.
+//
 // Build:
 //
 //	cd connector && GOOS=wasip1 GOARCH=wasm go build -trimpath \
@@ -11,86 +19,80 @@
 // Or via Taskfile from the repo root:
 //
 //	task build
-//
-// I/O contract (stdin → stdout JSON):
-//
-//	{"op": "issue", "args": {"id": "<uuid>"}}
-//	{"op": "viewer", "args": {}}
-//	{"op": "issue_create",
-//	 "args": {"title": "...", "teamId": "<uuid>", "description": "...",
-//	          "assigneeId": "<uuid>", "priority": 2}}
-//	{"op": "comment_create",
-//	 "args": {"issueId": "<uuid>", "body": "..."}}
-//
-// Op names are `snake_case` per the action.md `[[execute]].op` field
-// emitted by aileron-codegen; see action.md files under actions/.
-//
-// This is the scaffolding cut: each handler returns `not_implemented`.
-// The real GraphQL POST against api.linear.app and per-op response
-// shaping lands in a follow-up PR. See ALRubinger/aileron#915.
+
+//go:build wasip1
+
 package main
 
 import (
-	"encoding/json"
-	"io"
+	"fmt"
 	"os"
+	"unsafe"
 )
 
-type input struct {
-	Op   string         `json:"op"`
-	Args map[string]any `json:"args"`
-}
+//go:wasmimport aileron_host log
+//go:noescape
+func hostLog(levelPtr unsafe.Pointer, levelLen uint32, msgPtr unsafe.Pointer, msgLen uint32)
 
-type output struct {
-	Output map[string]any `json:"output,omitempty"`
-	Error  *outputError   `json:"error,omitempty"`
-}
+//go:wasmimport aileron_host http_request
+//go:noescape
+func hostHTTPRequest(reqPtr unsafe.Pointer, reqLen uint32) int32
 
-type outputError struct {
-	Class   string `json:"class"`
-	Message string `json:"message"`
-}
+//go:wasmimport aileron_host http_response_size
+//go:noescape
+func hostHTTPResponseSize() int32
 
-// knownOps are the op names emitted into action.md `[[execute]].op` by
-// aileron-codegen from `codegen/gen.yaml`. Keeping the list in lock-step
-// with the generated manifests is enforced by `task generate:check` —
-// if you add an op below, regenerate `actions/` first.
-var knownOps = map[string]bool{
-	"issue":          true,
-	"viewer":         true,
-	"issue_create":   true,
-	"comment_create": true,
+//go:wasmimport aileron_host http_response_status
+//go:noescape
+func hostHTTPResponseStatus() int32
+
+//go:wasmimport aileron_host http_response_read
+//go:noescape
+func hostHTTPResponseRead(dstPtr unsafe.Pointer, dstLen uint32) int32
+
+// _emptyPtrSentinel keeps the address of an empty byte slice valid; Go
+// can't take the address of an empty slice's first element directly.
+var _emptyPtrSentinel = [1]byte{}
+
+func ptr(b []byte) unsafe.Pointer {
+	if len(b) == 0 {
+		return unsafe.Pointer(&_emptyPtrSentinel[0])
+	}
+	return unsafe.Pointer(&b[0])
 }
 
 func main() {
-	os.Exit(run(os.Stdin, os.Stdout))
+	os.Exit(run(os.Stdin, os.Stdout, wasipTransport))
 }
 
-// run is the testable seam under main(). It reads one JSON op dispatch
-// from stdin and writes one JSON result to stdout. Returns the process
-// exit code.
-func run(stdin io.Reader, stdout io.Writer) int {
-	raw, err := io.ReadAll(stdin)
-	if err != nil {
-		writeError(stdout, "connector_runtime_error", "read_stdin: "+err.Error())
-		return 1
+// wasipTransport sends the request envelope through Aileron's host
+// import ABI and reads the response back. Implements Transport.
+func wasipTransport(req []byte) ([]byte, int, error) {
+	rc := hostHTTPRequest(ptr(req), uint32(len(req)))
+	if rc != 0 {
+		// The host has stuck a structured *Error on per-call state and
+		// will surface it to the caller; bailing here avoids
+		// double-wrapping. rc != 0 covers capability_denied and
+		// transport-level failure both.
+		return nil, 0, fmt.Errorf("http_request denied or failed (rc=%d)", rc)
 	}
-	var in input
-	if err := json.Unmarshal(raw, &in); err != nil {
-		writeError(stdout, "connector_runtime_error", "parse_input: "+err.Error())
-		return 1
+	size := hostHTTPResponseSize()
+	if size < 0 {
+		return nil, 0, fmt.Errorf("http_response_size returned %d", size)
 	}
-	if !knownOps[in.Op] {
-		writeError(stdout, "unknown_op", "op "+in.Op+" is not exposed by this connector")
-		return 1
+	respBody := make([]byte, size)
+	if size > 0 {
+		n := hostHTTPResponseRead(ptr(respBody), uint32(size))
+		if n < 0 {
+			return nil, 0, fmt.Errorf("http_response_read returned %d", n)
+		}
+		respBody = respBody[:n]
 	}
-	writeError(stdout, "not_implemented", "op "+in.Op+" is declared in the manifest but its handler has not landed yet — see ALRubinger/aileron#915")
-	return 0
+	return respBody, int(hostHTTPResponseStatus()), nil
 }
 
-func writeError(w io.Writer, class, message string) {
-	out := output{Error: &outputError{Class: class, Message: message}}
-	if err := json.NewEncoder(w).Encode(out); err != nil {
-		os.Stderr.WriteString("aileron-connector-linear: failed to encode error: " + err.Error() + "\n")
-	}
-}
+// hostLog is currently unused but kept exported-to-host so the
+// runtime can call into us if we ever need to surface progress
+// information mid-op. It is referenced by `_ = hostLog` to satisfy
+// staticcheck without actually invoking the host call.
+var _ = hostLog
