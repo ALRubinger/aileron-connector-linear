@@ -163,8 +163,8 @@ func unwrapEnvelope(t *testing.T, raw []byte) envelope {
 	if env.Credential != "api_key" {
 		t.Errorf("envelope.credential = %q, want api_key", env.Credential)
 	}
-	if env.URL != linearGraphQLEndpoint {
-		t.Errorf("envelope.url = %q, want %q", env.URL, linearGraphQLEndpoint)
+	if env.URL != graphqlEndpoint {
+		t.Errorf("envelope.url = %q, want %q", env.URL, graphqlEndpoint)
 	}
 	if env.Method != "POST" {
 		t.Errorf("envelope.method = %q, want POST", env.Method)

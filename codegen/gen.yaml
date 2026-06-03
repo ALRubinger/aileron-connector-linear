@@ -30,6 +30,7 @@ connector:
     kind: "api_key"
     header: "Authorization"
     format: "{key}"
+  endpoint: "https://api.linear.app/graphql"
   network:
     hosts:
       - "api.linear.app:443"
