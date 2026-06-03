@@ -11,6 +11,10 @@ import "fmt"
 
 const commentCreateMutation = `mutation CommentCreate($input: CommentCreateInput!) {
   commentCreate(input: $input) {
+    comment {
+      body
+      id
+    }
     lastSyncId
     success
   }
@@ -57,6 +61,12 @@ func handleIssue(args map[string]any, transport Transport) (map[string]any, erro
 
 const issueCreateMutation = `mutation IssueCreate($input: IssueCreateInput!) {
   issueCreate(input: $input) {
+    issue {
+      description
+      id
+      identifier
+      title
+    }
     lastSyncId
     success
   }
