@@ -1,0 +1,82 @@
+name: CI
+
+# Runs on every push to main and every PR. Exercises:
+#   - generate:check — committed actions/ matches codegen output
+#   - test:unit     — connector unit tests (host platform)
+#   - test:wasip1   — verify the connector still compiles for wasip1/wasm
+#
+# Live API integration is deliberately out of scope here — that requires
+# a real Linear API key and runs through aileron-connector-dev-run in the
+# Aileron repo, a manual developer tool, not a CI gate.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    name: Generate Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "1.26"
+          cache-dependency-path: connector/go.mod
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify actions/ matches codegen
+        run: task generate:check
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "1.26"
+          cache-dependency-path: connector/go.mod
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run unit tests
+        run: task test:unit
+
+      - name: Verify wasip1 build
+        run: task test:wasip1
+
+  vet:
+    name: Vet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "1.26"
+          cache-dependency-path: connector/go.mod
+
+      - name: go vet (host platform)
+        working-directory: connector
+        run: go vet ./...

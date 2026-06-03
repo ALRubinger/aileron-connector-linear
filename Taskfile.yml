@@ -1,0 +1,76 @@
+version: "3"
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list-all
+    silent: true
+
+  build:
+    desc: Build the connector WASM binary
+    dir: connector
+    sources:
+      - main.go
+      - go.mod
+    generates:
+      - ../connector.wasm
+    env:
+      GOOS: wasip1
+      GOARCH: wasm
+    cmds:
+      - go build -trimpath -ldflags="-s -w" -o ../connector.wasm .
+
+  generate:
+    desc: Re-run aileron-codegen against the bundled schema + overlay; rewrites actions/
+    cmds:
+      # Pinned to @latest while aileron-codegen is pre-release. Will switch
+      # to a tagged version once the overlay schema stabilizes — see
+      # ALRubinger/aileron#893 (umbrella) and ALRubinger/aileron-codegen
+      # AGENTS.md for the gate.
+      - go run github.com/ALRubinger/aileron-codegen/cmd/aileron-codegen@latest --spec codegen/schema.graphql --overlay codegen/gen.yaml --out .
+
+  generate:check:
+    desc: Verify the committed actions/ matches what codegen would emit. CI guard.
+    cmds:
+      - task: generate
+      - git diff --exit-code -- actions
+
+  test:
+    desc: Run connector unit tests + verify the wasip1 target still compiles
+    cmds:
+      - task: test:unit
+      - task: test:wasip1
+
+  test:unit:
+    desc: Run unit tests for the pure helpers (host platform; no WASM)
+    dir: connector
+    cmds:
+      - go test -v -count=1 -coverprofile=coverage.out ./...
+
+  test:wasip1:
+    desc: Smoke-check the connector compiles for the wasip1 target
+    dir: connector
+    env:
+      GOOS: wasip1
+      GOARCH: wasm
+    cmds:
+      - go build -o /dev/null .
+
+  vet:
+    desc: go vet (host platform; main.go is wasip1-tagged so it is exercised by test:wasip1)
+    dir: connector
+    cmds:
+      - go vet ./...
+
+  ci:
+    desc: Full local CI gate — generate:check + test + vet
+    cmds:
+      - task: generate:check
+      - task: test
+      - task: vet
+
+  clean:
+    desc: Remove build artifacts
+    cmds:
+      - rm -f connector.wasm connector/coverage.out
